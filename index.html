@@ -1,0 +1,149 @@
+<HTML>
+<head>
+    <meta charset="utf-8">
+    <title>Unseen Cities</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+  $('html').css({'cursor':'url(cursor.png), auto'});
+
+</script>
+    <script type="text/javascript">
+
+
+    window.onerror = new Function("return true");
+    document.onselectstart = new Function("return false");
+
+nx  = 0;
+ny  = 0;
+xm  = 0;
+ym  = 0;
+O   = 0;
+
+/////////////
+VS  = 1; //글자가 돌아오는 정도 (1보다 크면 흩어져서 돌아오지 않음)
+S   = 10000; //흔들리는 정도
+W   = 1920;
+H   = 1080;
+FX  = 1;
+/////////////
+
+function CObj(parent,x,y,txt){
+    o = document.createElement("span");
+    o.style.position='absolute';
+    o.innerHTML = txt;
+    document.getElementById("a").appendChild(o);
+    this.obj  = o.style;
+    this.x   = x;
+    this.y   = y;
+    this.x0  = x;
+    this.y0  = y;
+    this.anim = function () {
+        with(this){
+            dx = xm - x; //도망가는 글자 폭 1
+            dy = ym - y; //글자폭 2
+            d = Math.sqrt(dx * dx + dy * dy);
+            obj.left = x = x - S / d * (dx / d) + (x0 - x) * VS;
+            obj.top  = y = y - S / d * (dy / d) + (y0 - y) * VS;
+            if(parent)parent.anim();
+        }
+    }
+}
+
+function run(){
+    O.anim();
+    setTimeout("run()", 0.1);}
+
+document.onmousemove = function(e){
+    if (window.event) e = window.event;
+    xm = (e.x || e.clientX) - 0.6*nx;
+    ym = (e.y || e.clientY) - 0.6*ny;
+}
+
+function resize(){ //퍼져나가는 정도 (작을수록 멀리)
+    nx = document.body.offsetWidth * 0.7;
+    ny = document.body.offsetHeight * 0.7;
+}
+onresize = resize;
+
+function fontWidth(word){
+    // arial font
+    var S = "a68b68c68d68e68f31g68h68i31j31k68l31m108n68o68p68q68r39s68t39u68v50w90x68y68z68A90B90C90D90E90F78G98H90I28J59K90L68M108N90O98P90Q98R90S90T68U90V90W130X68Y90Z68'30.42!29?68-41/41=72";
+    var l = word.length;
+    var s = 5;
+    var x = 10;
+    var c = 100;
+    for(i=0;i<l;i++){
+        c = word.charAt(i);
+        x = S.indexOf(c);
+        if(c>="0" && c<="9")s+=10;
+        else if(x>=0)s+=parseInt(S.substring(x+1,x+4));
+        else s+=9;
+    }
+    return s/5; //반응속도...가 아닌ㄴ듯
+}
+
+onload = function(){
+    T = ["At Melania, every time you enter the square,you find yourself caught in a dialogue: the braggart soldier and the parasite coming from a door meet the young wastrel and the prostitute; or else the miserly father from his threshold utters his final warnings to the amorous daughter and is interrupted by the foolish servant who is taking a note to the procuress. You return to Melania after years and you find the same dialogue still going on; in the meanwhile the parasite has died, and so have the procuress and the miserly father; but the braggart soldier, the amorous daughter, the foolish servant have taken their places, being replaced in their turn by the hypocrite, the confidante, the astrologer."," Melania's population renews itself: the participants in the dialogues die one by one and meanwhile thosew ho will take their places are born, some in one role, some in another. When one changes role or abandons the square forever or makes his first entrance into it, there is a series of changes, until all the roles have been reassigned; but meanwhile the angry old man goes on replying to the witty maidservant, the usurer never ceases following the disinherited youth, the nurse consoles the stepdaughter,"," even if none of them keeps the same eyes and voice he had in the previous scene. At times it may happen that a sole person will simultaneously take on two or more roles-tyrant. benefactor. messenger or one role may be doubled. multiplied. assigned to a hundred. a thousand inhabitants of Melania: three thousand for the hypocrite, thirty thousand for the sponger."," a hundred thousand kings sons fallen in low estate and awaiting recognition. As time passes the roles, too, are no longer exactly the same as before; certainly the action they carry forward through intrigues and surprises leads toward some final denouement, which it continues to approach even when the plot seems to thicken more and more and the obstacles increase. If you look into the square in successive moments, you hear how from act to act the dialogue changes,"," even if the lives of Melania's inhabitants are too short for them to realize it.At Melania, every time you enter the square,you find yourself caught in a dialogue: the braggart soldier and the parasite coming from a door meet the young wastrel and the prostitute; or else the miserly father from his threshold utters his final warnings to the amorous daughter and is interrupted by the foolish servant who is taking a note to the procuress. You return to Melania after years and you find the same dialogue still going on; in the meanwhile ","the parasite has died, and so have the procuress and the miserly father; but the braggart soldier, the amorous daughter, the foolish servant have taken their places, being replaced in their turn by the hypocrite, the confidante, the astrologer. Melania's population renews itself: the participants in the dialogues die one by one and meanwhile thosew ho will take their places are born,"," some in one role, some in another. When one changes role or abandons the square forever or makes his first entrance into it, there is a series of changes, until all the roles have been reassigned; but meanwhile the angry old man goes on replying to the witty maidservant, the usurer never ceases following the disinherited youth, the nurse consoles the stepdaughter,"," even if none of them keeps the same eyes and voice he had in the previous scene. At times it may happen that a sole person will simultaneously take on two or more roles-tyrant. benefactor. messenger or one role may be doubled. multiplied. assigned to a hundred. a thousand inhabitants of Melania: three thousand for the hypocrite, thirty thousand for the sponger. a hundred thousand kings sons fallen in low estate and awaiting recognition. As time passes the roles, too,"," are no longer exactly the same as before; certainly the action they carry forward through intrigues and surprises leads toward some final denouement, which it continues to approach even when the plot seems to thicken more and more and the obstacles increase. If you look into the square in successive moments, you hear how from act to act the dialogue changes, even if the lives of Melania's inhabitants are too short for them to realize it.At Melania, every time you enter the square,you find yourself caught in a dialogue: the braggart soldier and the parasite coming from a door meet the young wastrel and the prostitute; or else the miserly father from his threshold utters his final warnings to the amorous daughter and is interrupted by the foolish servant who is taking a note to the procuress. You return to Melania after years and you find the same dialogue still going on; in the meanwhile ","the parasite has died, and so have the procuress and the miserly father; but the braggart soldier, the amorous daughter, the foolish servant have taken their places, being replaced in their turn by the hypocrite, the confidante, the astrologer. Melania's population renews itself: the participants in the dialogues die one by one and meanwhile thosew ho will take their places are born,"," some in one role, some in another. When one changes role or abandons the square forever or makes his first entrance into it, there is a series of changes, until all the roles have been reassigned; but meanwhile the angry old man goes on replying to the witty maidservant, the usurer never ceases following the disinherited youth, the nurse consoles the stepdaughter,"," even if none of them keeps the same eyes and voice he had in the previous scene. At times it may happen that a sole person will simultaneously take on two or more roles-tyrant. benefactor. messenger or one role may be doubled. multiplied. assigned to a hundred. a thousand inhabitants of Melania: three thousand for the hypocrite, thirty thousand for the sponger."," a hundred thousand kings sons fallen in low estate and awaiting recognition. As time passes the roles, too, are no longer exactly the same as before; certainly the action they carry forward through intrigues and surprises leads toward some final denouement, which it continues to approach ","even when the plot seems to thicken more and more and the obstacles increase. If you look into the square in successive moments, you hear how from act to act the dialogue changes, even if the lives of Melania's inhabitants are too short for them to realize it.At Melania, every time you enter the square,you find yourself caught in a dialogue: the braggart ","soldier and the parasite coming from a door meet the young wastrel and the prostitute; or else the miserly father from his threshold utters his final warnings to the amorous daughter and is interrupted by the foolish servant who is taking a note to the procuress. You return to Melania after years and you find the same dialogue still going on; in the meanwhile the parasite has died, and so have the procuress and the miserly father; but the braggart soldier, the amorous daughter, the foolish servant have taken their places, being replaced in their turn by the hypocrite, the confidante, the astrologer. Melania's population renews itself: the"," participants in the dialogues die one by one and meanwhile thosew ho will take their places are born, some in one role, some in another. When one changes role or abandons the square forever or makes his first entrance into it, there is a series of changes, until all the roles have been reassigned; but meanwhile the angry old man goes on replying to the witty maidservant, the usurer never ceases following the disinherited youth, the nurse consoles the stepdaughter,"," even if none of them keeps the same eyes and voice he had in the previous scene. At times it may happen that a sole person will simultaneously take on two or more roles-tyrant. benefactor. messenger or one role may be doubled. multiplied. assigned to a hundred. a thousand inhabitants of Melania: three thousand for the hypocrite, thirty thousand for the sponger."," a hundred thousand kings sons fallen in low estate and awaiting recognition. As time passes the roles, too, are no longer exactly the same as before; certainly the action they carry forward through intrigues and surprises leads toward some final denouement, which it continues to approach even when the plot seems to thicken more and more and the obstacles increase. If you look into the square in successive moments, you hear how from act to act the dialogue changes,"," even if the lives of Melania's inhabitants are too short for them to realize it.At Melania, every time you enter the square,you find yourself caught in a dialogue: the braggart soldier and the parasite coming from a door meet the young wastrel and the prostitute; or else the miserly father from his threshold utters his final warnings to the amorous daughter and is interrupted by the foolish servant who is taking a note to the procuress. You return to Melania after years and you find the same dialogue still going on; in the meanwhile ","the parasite has died, and so have the procuress and the miserly father; but the braggart soldier, the amorous daughter, the foolish servant have taken their places, being replaced in their turn by the hypocrite, the confidante, the astrologer. Melania's population renews itself: the participants in the dialogues die one by one and meanwhile thosew ho will take their places are born, some in one role,"," some in another. When one changes role or abandons the square forever or makes his first entrance into it, there is a series of changes, until all the roles have been reassigned; but meanwhile the angry old man goes on replying to the witty maidservant, the usurer never ceases following the disinherited youth, the nurse ","consoles the stepdaughter, even if none of them keeps the same eyes and voice he had in the previous scene. At times it may happen that a sole person will simultaneously take on two or more roles-tyrant. benefactor. messenger or one role may be doubled. multiplied. assigned to a hundred. a thousand inhabitants of Melania: three thousand for the hypocrite, thirty thousand for the sponger. a hundred thousand kings sons fallen in low estate and awaiting recognition. As time passes the roles, too,"," are no longer exactly the same as before; certainly the action they carry forward through intrigues and surprises leads toward some final denouement, which it continues to approach even when the plot seems to thicken more and more and the obstacles increase. If you look into the square in successive moments, you hear how from act to act the dialogue changes, even if the lives of Melania's inhabitants are too short for them to realize it.At Melania, every time you enter the square,","you find yourself caught in a dialogue: the braggart soldier and the parasite coming from a door meet the young wastrel and the prostitute; or else the miserly father from his threshold utters his final warnings to the amorous daughter and is interrupted by the foolish servant who is taking a note to the procuress. You return to Melania after years and you find the same dialogue still going on; in the meanwhile ","the parasite has died, and so have the procuress and the miserly father; but the braggart soldier, the amorous daughter, the foolish servant have taken their places, being replaced in their turn by the hypocrite, the confidante, the astrologer. Melania's population renews itself: the participants in the dialogues die one by one and meanwhile thosew ho will take"," their places are born, some in one role, some in another. When one changes role or abandons the square forever or makes his first entrance into it, there is a series of changes, until all the roles have been reassigned; but meanwhile the angry old man goes on replying to the witty maidservant, the usurer never ceases following the disinherited youth, the nurse consoles the stepdaughter, even if none of them keeps the"," same eyes and voice he had in the previous scene. At times it may happen that a sole person will simultaneously take on two or more roles-tyrant. benefactor. messenger or one role may be doubled. multiplied. assigned to a hundred. a thousand inhabitants of Melania: three thousand for the hypocrite, thirty thousand for the sponger."," a hundred thousand kings sons fallen in low estate and awaiting recognition. As time passes the roles, too, are no longer exactly the same as before; certainly the action they carry forward through intrigues and surprises leads toward some final denouement, which it continues to approach even when the plot seems to thicken more and more and the obstacles increase. If you look into the square in successive moments,"," you hear how from act to act the dialogue changes, even if the lives of Melania's inhabitants are too short for them to realize it.At Melania, every time you enter the square,you find yourself caught in a dialogue: the braggart soldier and the parasite coming from a door meet the young wastrel and ","the prostitute; or else the miserly father from his threshold utters his final warnings to the amorous daughter and is interrupted by the foolish servant who is taking a note to the procuress. You return to Melania after years and you find the same dialogue still going on; in the meanwhile the parasite has died, and so have the procuress and the miserly father; but the braggart soldier, the amorous daughter, the ","foolish servant have taken their places, being replaced in their turn by the hypocrite, the confidante, the astrologer. Melania's population renews itself: the participants in the dialogues die one by one and meanwhile thosew ho will take their places are born, some in one role, some in another. When one changes role or abandons the square forever or makes his first entrance into it, there is a series of changes, until all the roles have been reassigned; but meanwhile the angry old man goes on replying to the witty maidservant, the usurer never ceases following the disinherited youth, the nurse consoles the stepdaughter,"," even if none of them keeps the same eyes and voice he had in the previous scene. At times it may happen that a sole person will simultaneously take on two or more roles-tyrant. benefactor. messenger or one role may be doubled. multiplied. assigned to a hundred. a thousand inhabitants of Melania: three thousand for the hypocrite, thirty thousand for the sponger."," a hundred thousand kings sons fallen in low estate and awaiting recognition. As time passes the roles, too, are no longer exactly the same as before; certainly the action they carry forward through intrigues and surprises leads toward some final denouement, which it continues to approach even when the plot seems to thicken more and more and the obstacles increase. If you look into the square in successive moments, you hear how from act to act the dialogue changes,"," even if the lives of Melania's inhabitants are too short for them to realize it.At Melania, every time you enter the square,you find yourself caught in a dialogue: the braggart soldier and the parasite coming from a door meet the young wastrel and the prostitute; or else the miserly father from his threshold utters his final warnings to the amorous daughter and is interrupted by the foolish servant who is taking a note to the procuress. You return to Melania after years and you find the same dialogue still going on; in the meanwhile ","the parasite has died, and so have the procuress and the miserly father; but the braggart soldier, the amorous daughter, the foolish servant have taken their places, being replaced in their turn by the hypocrite, the confidante, the astrologer. Melania's population renews itself: the participants in the dialogues die one by one and meanwhile thosew ho will take their places ","are born, some in one role, some in another. When one changes role or abandons the square forever or makes his first entrance into it, there is a series of changes, until all the roles have been reassigned; but meanwhile the angry old man goes on replying to the witty maidservant, the usurer never ceases following the disinherited youth, the nurse consoles the stepdaughter, even if none"," of them keeps the same eyes and voice he had in the previous scene. At times it may happen that a sole person will simultaneously take on two or more roles-tyrant. benefactor. messenger or one role may be doubled. multiplied. assigned to a hundred. a thousand inhabitants of Melania: three thousand for the hypocrite, thirty thousand for the sponger. a hundred thousand kings sons fallen in low estate and awaiting recognition. As time passes the roles, too,"," are no longer exactly the same as before; certainly the action they carry forward through intrigues and surprises leads toward some final denouement, which it continues to approach even when the plot seems to thicken more and more and the obstacles increase. If you look into the square in successive moments, you hear how from act to act the dialogue changes, even if the lives of Melania's inhabitants are too short for them to realize it.At Melania, every time you enter the square,you find yourself caught"," in a dialogue: the braggart soldier and the parasite coming from a door meet the young wastrel and the prostitute; or else the miserly father from his threshold utters his final warnings to the amorous daughter and is interrupted by the foolish servant who is taking a note to the procuress. You return to Melania after years and you find the same dialogue still going on; in the meanwhile ","the parasite has died, and so have the procuress and the miserly father; but the braggart soldier, the amorous daughter, the foolish servant have taken their places, being replaced in their turn by the hypocrite, the confidante, the astrologer. Melania's population renews itself: the participants in the dialogues die one by one and meanwhile thosew ho will take their places are born, some in"," one role, some in another. When one changes role or abandons the square forever or makes his first entrance into it, there is a series of changes, until all the roles have been reassigned; but meanwhile the angry old man goes on replying to the witty maidservant, the usurer never ceases following the disinherited youth, the nurse consoles the stepdaughter, even","  if none of them keeps the same eyes and voice he had in the previous scene. At times it may happen that a sole person will simultaneously take on two or more roles-tyrant. benefactor. messenger or one role may be doubled. multiplied. assigned to a hundred. a thousand inhabitants of Melania: three thousand for the hypocrite, thirty thousand for the sponger."," a hundred thousand kings sons fallen in low estate and awaiting recognition. As time passes the roles, too, are no longer exactly the same as before; certainly the action they carry forward through intrigues and surprises leads toward some final denouement, which it continues to approach even when ","the plot seems to thicken more and more and the obstacles increase. If you look into the square in successive moments, you hear how from act to act the dialogue changes, even if the lives of Melania's inhabitants are too short for them to realize it.","At Melania, every time you enter the square,you find yourself caught in a dialogue: the braggart soldier and the parasite coming from a door meet the young wastrel and the prostitute; or else the miserly father from his threshold utters his final warnings to the amorous daughter and is interrupted by the foolish servant who is taking a note to the procuress. You return to Melania after years and you find the same dialogue still going on; in the meanwhile the parasite has died, and so have the procuress and the miserly father; but the braggart soldier, the amorous daughter, the foolish servant have taken their places, being replaced in their turn by the hypocrite, the ","confidante, the astrologer. Melania's population renews itself: the participants in the dialogues die one by one and meanwhile thosew ho will take their places are born, some in one role, some in another. When one changes role or abandons the square forever or makes his first entrance into it, there is a series of changes, until all the roles have been reassigned; but meanwhile the angry old man goes on replying to the witty maidservant, the usurer never ceases following the disinherited youth, the nurse consoles the ","stepdaughter, even if none of them keeps the same eyes and voice he had in the previous scene. At times it may happen that a sole person will simultaneously take on two or more roles-tyrant. benefactor. messenger or one role may be doubled. multiplied. assigned to a hundred. a thousand inhabitants of Melania: three thousand for the hypocrite, thirty thousand for the sponger."," a hundred thousand kings sons fallen in low estate and awaiting recognition. As time passes the roles, too, are no longer exactly the same as before; certainly the action they carry forward through intrigues and surprises leads toward some final denouement, which it continues to approach even when the plot seems to thicken more and more and the obstacles increase. If you look into the square in successive moments, you hear how from act to act the dialogue changes,"," even if the lives of Melania's inhabitants are too short for them to realize it.At Melania, every time you enter the square,you find yourself caught in a dialogue: the braggart soldier and the parasite coming from a door meet the young wastrel and the prostitute; or else the miserly father from his threshold utters his final warnings to the amorous daughter and is interrupted by the foolish servant who is taking a note to the procuress. You return to Melania after years and you find the same dialogue still going on; in the meanwhile "];
+       
+    var R = {"Wikipedia": "<div style='color:#FF8000'>Wikipedia</div>", "click": "<div style='color:#FFFFFF'><font color=white>click</font></div>"};
+
+    resize();
+    x = 0;
+    y = 0;
+    for(j in T){
+        Tx = T[j].split(" ");
+
+        xt = -100;
+        for(i in Tx){
+            txt = Tx[i];
+            xt += fontWidth(txt);
+        }
+        if(Tx.length)sP = (W - xt) / (Tx.length-1); else sP = 0;
+
+        for(i in Tx){
+            txt = Tx[i];
+            if(txt) {
+                O = new CObj(O, -(W/2)+x, -(H/2)+y, R[txt]!=undefined?R[txt]:txt);
+                x += FX*(fontWidth(txt)+sP);
+            }
+        }
+        y += 20;
+        x = 0;
+    }
+    run();
+}
+//숫자를 바꿔서 위치값 변경, 엔터는 따옴표로 묶ㄱ
+
+</script>
+<style>
+
+    @font-face { font-family: 'IBMPlexSansKR-Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Light.woff') format('woff'); font-weight: normal; font-style: normal; }
+    @font-face { font-family: 'TmoneyRoundWindExtraBold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff') format('woff'); font-weight: normal; font-style: normal; }
+    .spacing {letter-spacing: -10px; word-spacing: -10px;}
+    .font {font-family: 'IBMPlexSansKR-Light'; line-height: 0.3; color:white;}
+    .font2 {font-family: 'TmoneyRoundWindExtraBold';line-height: 0.3; color:white; text-align: justify;}
+    #a span{font-size: 3vh}
+
+    body{background-color: black;}
+</style>
+
+    
+
+</head>
+
+<body>
+
+
+
+<div id="a" style="position:absolute; left:35%; top:50%;" class="font2">
+    
+</div>
+
+
+
+</body>
+</html>
+
+ 
